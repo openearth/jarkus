@@ -306,7 +306,7 @@ class Transects:
                         fmt = '%6i%6i9'
                     else:
                         # add code 3 (interpolated) to all 
-                        fmt = '%6i%6i%3'
+                        fmt = '%6i%6i3'
                         # TODO: use actual code
                     s = s + fmt%d
                     if (j+1)%5==0:

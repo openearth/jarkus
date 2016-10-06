@@ -13,7 +13,6 @@ class UnitTests(unittest.TestCase):
     def setUp(self):
         from jarkus.transects import Transects
         self.tr = Transects()
-        print self.tr
     def test_initurl(self):
         from jarkus.transects import Transects
         url = 'http://opendap.deltares.nl/thredds/dodsC/opendap/rijkswaterstaat/jarkus/profiles/transect.nc'
@@ -24,8 +23,7 @@ class UnitTests(unittest.TestCase):
         idx = -1
         B[-1] = True
         self.tr.set_filter(alongshore=B)
-        print self.tr.get_data('id'), self.tr.ds.variables['id'][idx]
-        self.assertEqual(self.tr.get_data('id'), self.tr.ds.variables['id'][idx])        
+        self.assertEqual(self.tr.get_data('id'), self.tr.ds.variables['id'][idx])
     def test_set_filter_id(self):
         id = 7e6
         self.tr.set_filter(id=id)
@@ -43,7 +41,7 @@ class UnitTests(unittest.TestCase):
         ids = self.tr.get_data('id')
         idx = np.nonzero(ids==8006000)[0]
         self.tr.set_filter(alongshore=idx[0])
-        print self.tr.get_jrk()
+        self.tr.get_jrk()
 
 if __name__ == '__main__':
     unittest.main()
