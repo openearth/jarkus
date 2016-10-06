@@ -18,7 +18,7 @@ setup(
     keywords = "JARKUS, Bathymetry, Topography",
     packages = find_packages(),
     install_requires = ["logging", "NetCDF4", "numpy"],
-    long_description = read('README'),
+    long_description = read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
