@@ -28,6 +28,4 @@ install:
   - python setup.py install
 
 script:
-  - pwd 
-  - ls
-  - python test/__init__.py 
+  - python jarkus/test/__init__.py 
