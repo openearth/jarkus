@@ -8,6 +8,8 @@ addons:
       - libhdf5-serial-dev
       - netcdf-bin
       - libnetcdf-dev
+      - python-numpy
+      - python-scipy
 
 python:
   - "2.7"
@@ -15,8 +17,11 @@ python:
 notifications:
   email: false
 
+virtualenv:
+    system_site_packages: true
+
 before_install:
-  - pip install numpy scipy NetCDF4
+  - pip install NetCDF4
 
 install:
   - python setup.py build
