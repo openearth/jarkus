@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name = "jarkus_transects",
-    version = "0.0.1",
+    version = "0.1.0",
     author = "Kees den Heijer",
     author_email = "Kees.denHeijer@deltares.nl",
     description = ("Python wrapper for JARKUS transect NetCDF file"),
