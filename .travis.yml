@@ -1,0 +1,27 @@
+language: python
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - libhdf5-serial-dev
+      - netcdf-bin
+      - libnetcdf-dev
+
+python:
+  - "2.7"
+
+notifications:
+  email: false
+
+before_install:
+  - pip install numpy scipy NetCDF4
+
+install:
+  - python setup.py build
+  - python setup.py install
+
+script:
+  - cd test
+  - python __init__.py
