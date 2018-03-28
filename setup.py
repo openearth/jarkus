@@ -17,7 +17,7 @@ setup(
     license = "GPL",
     keywords = "JARKUS, Bathymetry, Topography",
     packages = find_packages(),
-    install_requires = ["logging", "NetCDF4", "numpy"],
+    install_requires = ["NetCDF4", "numpy"],
     long_description = read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -28,5 +28,6 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "License :: General Public License (GPL)",
+        "Programming Language :: Python :: 3",
     ],
 ) 
