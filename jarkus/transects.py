@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 from netCDF4 import Dataset,num2date
 import numpy as np
 from numpy import asarray
-import exceptions
 from scipy.interpolate import interp1d
 
 
@@ -33,15 +32,15 @@ class Transects:
         """
         instantiate the environment
         """
-        if kwargs.has_key('url'):
+        if 'url' in kwargs:
             self.url = kwargs.pop('url')
         else:
-            self.url = 'http://dtvirt5.deltares.nl:8080/thredds/dodsC/opendap/rijkswaterstaat/jarkus/profiles/transect.nc'
+            self.url = 'http://opendap.tudelft.nl/thredds/dodsC/data2/deltares/rijkswaterstaat/jarkus/profiles/transect.nc'
         
         try:
             self.ds = Dataset(self.url)
-        except:
-            err = exceptions.IOError('"%s" not found.'%self.url)
+        except OSError as e:
+            err = ('%e. "%s" not found.' %(e,self.url))
             logger.error(err)
             raise err
             
@@ -71,7 +70,7 @@ class Transects:
             isvar = k in self.ds.variables.keys()
             if (isinstance(v, bool) or isinstance(v, np.ndarray) and v.dtype == bool) and len(v) == len(self.dims[k]):
                 self.filter[k] = np.logical_and(self.filter[k], v)
-            elif isinstance(v, int) and self.dims.has_key(k) and np.all(np.abs(np.asarray(v)) < self.dims[k].__len__()):
+            elif isinstance(v, int) and k in self.dims and np.all(np.abs(np.asarray(v)) < self.dims[k].__len__()):
                 self.filter[k] = np.ones((self.dims[k].__len__(),)) == 0
                 self.filter[k][v] = True
             elif k == 'year':
@@ -294,21 +293,21 @@ class Transects:
                     continue
                 zc = zc[idx]*100
                 xc = x[idx]
-                data = zip(xc, zc)
+                data = list(zip(xc, zc))
                 if not nx%5 == 0:
                     # fill incomplete rows with dummy values
                     dummyvals = [(99999, 999999)] * (5-nx%5)
                     data = data + dummyvals
                 # create header line
                 s = '%s%6i%6i%6i%6i%6i%6i%6i\n'%(s, (aid-aid%1e6)/1e6, year, aid%1e6, 0, 0, 0, nx)
-                for j,d in enumerate(data):
+                for j,d in enumerate(zip(data)):
                     if d == (99999, 999999):
                         fmt = '%6i%6i9'
                     else:
                         # add code 3 (interpolated) to all 
                         fmt = '%6i%6i3'
                         # TODO: use actual code
-                    s = s + fmt%d
+                    s = s + fmt%d[0]
                     if (j+1)%5==0:
                         s = '%s\n'%s
                     else:
