@@ -70,7 +70,7 @@ class Transects:
             isvar = k in self.ds.variables.keys()
             if (isinstance(v, bool) or isinstance(v, np.ndarray) and v.dtype == bool) and len(v) == len(self.dims[k]):
                 self.filter[k] = np.logical_and(self.filter[k], v)
-            elif isinstance(v, int) and k in self.dims and np.all(np.abs(np.asarray(v)) < self.dims[k].__len__()):
+            elif isinstance(v, (int, np.integer)) and k in self.dims and np.all(np.abs(np.asarray(v)) < self.dims[k].__len__()):
                 self.filter[k] = np.ones((self.dims[k].__len__(),)) == 0
                 self.filter[k][v] = True
             elif k == 'year':
