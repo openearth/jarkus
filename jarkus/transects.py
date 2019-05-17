@@ -200,7 +200,6 @@ class Transects:
             zMKL = np.ones(z.shape[:2]) * np.nan
             for it in np.arange(z.shape[0]):
                 for il in np.arange(z.shape[1]):
-                    print(np.arange(z.shape[1]), il)
                     mask = z[it,il,].mask
                     result = self.MKL(x=x[~mask], z=z[it,il,].data[~mask], lower=lower, upper=upper)
                     if result:
