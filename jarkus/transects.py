@@ -111,7 +111,7 @@ class Transects:
         if type(areaname) == np.str:
             return areas.get(areaname)
         if type(areaname) == list:
-            return map(areas.get, areaname)
+            return list(map(areas.get, areaname))
     def time2year(self, t):
         """
         convert time to year
