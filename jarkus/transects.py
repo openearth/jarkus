@@ -193,7 +193,6 @@ class Transects:
         from shapely.geometry import asShape 
         import shapely.geometry
         
-        print(x,z)
         if x is None and z is None:
             x = self.get_data('cross_shore')
             z = self.get_data('altitude')
