@@ -105,9 +105,9 @@ class Transects:
         """
         # areas according to RWS definition
         areas = {"Schiermonnikoog":2,"Ameland":3,"Terschelling":4,"Vlieland":5,
-		         "Texel":6,"Noord-Holland":7,"Rijnland":8,"Delfland":9,
-				 "Maasvlakte":10,"Voorne":11,"Goeree":12,"Schouwen":13,
-				 "Noord-Beveland":15,"Walcheren":16,"Zeeuws-Vlaanderen":17}
+                 "Texel":6,"Noord-Holland":7,"Rijnland":8,"Delfland":9,
+                 "Maasvlakte":10,"Voorne":11,"Goeree":12,"Schouwen":13,
+                 "Noord-Beveland":15,"Walcheren":16,"Zeeuws-Vlaanderen":17}
         if type(areaname) == np.str:
             return areas.get(areaname)
         if type(areaname) == list:
@@ -190,7 +190,7 @@ class Transects:
             logger.warning('No MKL can be derived with inconsistent boundaries (lower=%g, upper=%g)'%(lower,upper))
             return None
 
-        from shapely.geometry import asShape 
+        from shapely.geometry import shape
         import shapely.geometry
         
         if x is None and z is None:
@@ -230,18 +230,18 @@ class Transects:
         # we do not want any double points, cause that invalidates a polygon (SFS)
         # go down one extra, because we don't want to go backward through the same points
         coords = np.r_[X,[[max_x, min_z-1],[min_x, min_z-1], X[0,:]]]
-        # poly_x = asShape(shapely.geometry.asPolygon(coords))
+        # poly_x = shape(shapely.geometry.Polygon(coords))
         poly_x = shapely.geometry.Polygon(coords.astype('float'))
         assert poly_x.is_valid
 
         # look up the lower intersections with the lower and upper boundary
         # lower
-        line_lower = asShape(shapely.geometry.asLineString([[min_x, lower], [max_x, lower]]))
+        line_lower = shapely.geometry.LineString([[min_x, lower], [max_x, lower]])
         assert line_lower.is_valid
         intersects_lower = (line_lower.intersection(poly_x))
         assert intersects_lower.is_valid 
         # upper
-        line_upper = asShape(shapely.geometry.asLineString([[min_x, upper], [max_x, upper]]))
+        line_upper = shapely.geometry.LineString([[min_x, upper], [max_x, upper]])
         assert line_upper.is_valid
         intersects_upper = (line_upper.intersection(poly_x))
         assert intersects_upper.is_valid
@@ -255,7 +255,7 @@ class Transects:
         lwb = intersects_upper.bounds[2]
 
         # calculate mkl using maximum method
-        boundary_box = shapely.geometry.asPolygon([[lwb,upper], [lwb, lower], [swb,lower], [swb, upper], [lwb,upper]])
+        boundary_box = shapely.geometry.Polygon([[lwb,upper], [lwb, lower], [swb,lower], [swb, upper], [lwb,upper]])
         mkl_volume = boundary_box.intersection(poly_x)
         if boundary_box.area+mkl_volume.area == 0:
             return None
